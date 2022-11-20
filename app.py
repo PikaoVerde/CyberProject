@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, session
+from flask import Flask, redirect, url_for, render_template, request, session, flash
 
 app = Flask(__name__)
 app.secret_key = "PikaoVerde"
@@ -12,6 +12,7 @@ def login():
     if request.method == "POST":
         user = request.form["nm"]
         session["user"] = user
+        flash("Login successfull!", "info")
         return redirect(url_for("user"))
     else:
         if "user" in session:
@@ -22,12 +23,14 @@ def login():
 def user():
     if "user" in session:
         user = session["user"]
-        return f"<h1>{user}</h1>"
+        return render_template("user.html", user=user)
     else:
         return redirect(url_for("login"))
 
 @app.route("/logout/")
 def logout():
+    if "user" in session:
+        flash("Logged out successfully!", "info")
     session.pop("user", None)
     return redirect(url_for("login"))
 
