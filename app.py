@@ -77,7 +77,6 @@ def logout():
     return redirect(url_for("login"))
 
 
-with app.app_context():
-    app.run(debug=True)
-    print("cu verde")
-    db.create_all()
+# with app.app_context():
+app.run(debug=True)
+db.create_all()
