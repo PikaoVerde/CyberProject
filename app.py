@@ -14,10 +14,12 @@ class users(db.Model):
     _id = db.Column("id", db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     email = db.Column(db.String(100))
+    phone = db.Column(db.String(100))
 
-    def __init__(self, name, email):
+    def __init__(self, name, email, phone):
         self.name = name
         self.email = email
+        self.phone = phone
 
 
 @app.route("/")
@@ -33,9 +35,11 @@ def login():
         found_user = users.query.filter_by(name=user).first()
         if found_user:
             session["email"] = found_user.email
+            session["phone"] = found_user.phone
+
 
         else:
-            usr = users(user, "")
+            usr = users(user, "", "")
             db.session.add(usr)
             db.session.commit()
 
@@ -55,15 +59,20 @@ def user():
 
         if request.method == "POST":
             email = request.form["email"]
+            phone = request.form["Tel"]
+            session["phone"] = phone
             session["email"] = email
             found_user = users.query.filter_by(name=user).first()
             found_user.email = email
+            found_user.phone = phone
             db.session.commit()
-            flash ("Email saved!", "info")
+            flash ("Information saved!", "info")
         else:
             if "email" in session:
                 email = session["email"]
-        return render_template("user.html", email=email)
+            if "phone" in session:
+                    phone = session["phone"]
+        return render_template("user.html", email=email, user=user, phone=phone)
     else:
         return redirect(url_for("login"))
 
