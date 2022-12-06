@@ -1,10 +1,17 @@
 from flask import Flask, redirect, url_for, render_template, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
+from flask_googlemaps import GoogleMaps, Map
 
 app = Flask(__name__)
 app.secret_key = "PikaoVerde"
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///users.sqlite3'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+app.config['GOOGLEMAPS_KEY'] = "AIzaSyCel7fvMD4zIoqDyfKCDxlEwUA-ns6SogM"
+
+# GoogleMaps(app)
+
+GoogleMaps(app, key="AIzaSyCel7fvMD4zIoqDyfKCDxlEwUA-ns6SogM")
 
 
 db = SQLAlchemy(app)
@@ -24,7 +31,26 @@ class users(db.Model):
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    mymap = Map(
+        identifier="mymap",
+        lat=37.4419,
+        lng=-122.1419,
+        markers=[
+            {
+                'icon': 'http://maps.google.com/mapfiles/kml/shapes/caution.png',
+                'lat': 37.4419,
+                'lng': -122.1419,
+                'infobox': "<b>Hello World</b>"
+            },
+            {
+                'icon': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                'lat': 37.4300,
+                'lng': -122.1400,
+                'infobox': "<b>Hello World from other place</b>"
+            }
+        ]
+    )
+    return render_template("index.html", mymap=mymap)
 
 @app.route("/login/", methods=["POST", "GET"])
 def login():
