@@ -54,12 +54,13 @@ def login():
 @app.route("/user/", methods=["POST", "GET"])
 def user():
     email = None
+    phone = None
     if "user" in session:
         user = session["user"]
 
         if request.method == "POST":
             email = request.form["email"]
-            phone = request.form["Tel"]
+            phone = request.form["phone"]
             session["phone"] = phone
             session["email"] = email
             found_user = users.query.filter_by(name=user).first()
@@ -71,7 +72,7 @@ def user():
             if "email" in session:
                 email = session["email"]
             if "phone" in session:
-                    phone = session["phone"]
+                phone = session["phone"]
         return render_template("user.html", email=email, user=user, phone=phone)
     else:
         return redirect(url_for("login"))
@@ -86,6 +87,8 @@ def logout():
     return redirect(url_for("login"))
 
 
-# with app.app_context():
-app.run(debug=True)
-db.create_all()
+with app.app_context():
+    db.create_all()
+    app.run(debug=True)
+
+
