@@ -8,10 +8,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///users.sqlite3'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 app.config['GOOGLEMAPS_KEY'] = "AIzaSyCel7fvMD4zIoqDyfKCDxlEwUA-ns6SogM"
+#
+GoogleMaps(app)
 
-# GoogleMaps(app)
-
-GoogleMaps(app, key="AIzaSyCel7fvMD4zIoqDyfKCDxlEwUA-ns6SogM")
+# GoogleMaps(app, key="AIzaSyCel7fvMD4zIoqDyfKCDxlEwUA-ns6SogM")
 
 
 db = SQLAlchemy(app)
