@@ -112,6 +112,10 @@ def logout():
     session.pop("email", None)
     return redirect(url_for("login"))
 
+@app.route("/map")
+def map():
+    return render_template("map.html")
+
 
 with app.app_context():
     db.create_all()

@@ -4,22 +4,29 @@
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-<!--{{"decoupled-map"|googlemap_js(37.4419, -122.1419, markers=[(37.4419,-122.1419)])}} {{mymap.js}}-->
+
+{{"decoupled-map"|googlemap_js(37.4419, -122.1419, markers=[(37.4419,-122.1419)])}}
+{{mymap.js}}
 
 {% endblock %}
 
 {% block content %}
 <h1>Hello!</h1>
 <!--{{googlemap("simple-map", 37.4419, -122.1419)}}-->
-<h1>Map</h1>
+
+<!--<h1>Map</h1>-->
+<!--<div id="map"></div>-->
+
+
 <!--{{mymap.html}}-->
 
-<iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27012.321259781504!2d34.880814531653996!3d32.18967271284317!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d3872f83085e1%3A0x114f1d00a75dbad1!2z16jXoteg16DXlCwg15nXqdeo15DXnA!5e0!3m2!1siw!2sus!4v1670748078793!5m2!1siw!2sus"
-        width="600" height="450"
-        style="border:0;" allowfullscreen=""
-        loading="lazy" referrerpolicy="no-referrer-when-downgrade">
 
-</iframe>
+<!--<iframe-->
+<!--        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27012.321259781504!2d34.880814531653996!3d32.18967271284317!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d3872f83085e1%3A0x114f1d00a75dbad1!2z16jXoteg16DXlCwg15nXqdeo15DXnA!5e0!3m2!1siw!2sus!4v1670748078793!5m2!1siw!2sus"-->
+<!--        width="600" height="450"-->
+<!--        style="border:0;" allowfullscreen=""-->
+<!--        loading="lazy" referrerpolicy="no-referrer-when-downgrade">-->
+
+<!--</iframe>-->
 
 {% endblock %}

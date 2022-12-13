@@ -1,3 +1,11 @@
 body {
     color:#FF0000;
 }
+
+/* Set the size of the div element that contains the map */
+#map {
+  height: 800px;
+
+  width: 90%;
+  /* The width is the width of the web page */
+}
