@@ -12,11 +12,6 @@ const israel = { lat: 31.4117257, lng: 35.0818155 };
   });
   infoWindow = new google.maps.InfoWindow();
 
-//  const iconBase ="http://maps.google.com/mapfiles/kml/"
-//
-//  const icons = {
-//  danger:{icon: iconBase + shapes/caution.png}
-//  };
 
   const marker = new google.maps.Marker({
     position: { lat: 32.1778, lng: 34.8736 },

@@ -7,7 +7,7 @@ app.secret_key = "PikaoVerde"
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///users.sqlite3'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-app.config['GOOGLEMAPS_KEY'] = "AIzaSyCel7fvMD4zIoqDyfKCDxlEwUA-ns6SogM"
+app.config['GOOGLEMAPS_KEY'] = "AIzaSyCGPs81uXNmtO-twbZR9oIKqzG8JzEjtzs"
 #
 GoogleMaps(app)
 
