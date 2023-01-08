@@ -4,20 +4,31 @@
 let map, infoWindow;
 
 
-function initMap() {
-const israel = { lat: 31.4117257, lng: 35.0818155 };
+function initMap(obj) {
+console.log("obj from initmap")
+console.log(obj)
+const israel = { lat: 31.4117257, lng: 35.0818155 }
   map = new google.maps.Map(document.getElementById("map"), {
     center: israel,
     zoom: 8,
   });
   infoWindow = new google.maps.InfoWindow();
 
-
-  const marker = new google.maps.Marker({
-    position: { lat: 32.1778, lng: 34.8736 },
+function addMarker(location) {
+  new google.maps.Marker({
+    position: location,
     map: map,
-    draggable: true
   });
+}
+
+google.maps.event.addListener(map, "click", (event) => {
+    addMarker(event.latLng, map);
+  });
+
+for (let i=0; i<obj.markers.length ;i++)
+{
+    addMarker(obj.markers[i])
+}
 
   const locationButton = document.createElement("button");
 
@@ -62,4 +73,12 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map);
 }
 
-window.initMap = initMap;
+fetch('mapdata').then(function(response){
+    return response.json();
+}).then(function (obj){
+    console.log(obj);
+    window.initMap = initMap(obj);
+}).catch(function(error){
+    console.error('Deu Merda');
+    console.error(error);
+});

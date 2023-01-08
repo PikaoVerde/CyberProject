@@ -116,6 +116,22 @@ def logout():
 def map():
     return render_template("map.html")
 
+@app.route("/mapdata", methods=["POST", "GET"])
+def mapdata():
+    data = {
+          "markers": [
+            {
+              "lat": 32.1778,
+              "lng": 34.8736
+            },
+            {
+              "lat": 32.188910,
+              "lng": 34.866980
+            }
+          ]
+    }
+    return data
+
 
 with app.app_context():
     db.create_all()
