@@ -8,27 +8,38 @@ function initMap(obj) {
 console.log("obj from initmap")
 console.log(obj)
 const israel = { lat: 31.4117257, lng: 35.0818155 }
-  map = new google.maps.Map(document.getElementById("map"), {
+  const map = new google.maps.Map(document.getElementById("map"), {
     center: israel,
     zoom: 8,
   });
-  infoWindow = new google.maps.InfoWindow();
 
-function addMarker(location) {
-  new google.maps.Marker({
-    position: location,
-    map: map,
+  const infoWindow = new google.maps.InfoWindow();
+
+function addMarker([location, title, num]) {
+  const marker = new google.maps.Marker({
+    position : location,
+    map : map,
+    title: `${num}. ${title}`,
+    label: "!",
+    optimized: false,
   });
+      marker.addListener("click", () => {
+      infoWindow.close();
+      infoWindow.setContent(marker.getTitle());
+      infoWindow.open(marker.getMap(), marker);
+    });
 }
 
-google.maps.event.addListener(map, "click", (event) => {
-    addMarker(event.latLng, map);
-  });
+//google.maps.event.addListener(map, "click", (event) => {
+//    addMarker([event.latLng, "click"], map);
+//  });
 
 for (let i=0; i<obj.markers.length ;i++)
 {
     addMarker(obj.markers[i])
 }
+
+
 
   const locationButton = document.createElement("button");
 
