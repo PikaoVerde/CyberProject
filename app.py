@@ -107,6 +107,14 @@ def logout():
     session.pop("email", None)
     return redirect(url_for("login"))
 
+@app.route("/report")
+def report():
+    if "user" in session:
+        user = session["user"]
+        return render_template("report.html")
+    else:
+        return redirect(url_for("login"))
+
 @app.route("/map")
 def map():
     return render_template("map.html")

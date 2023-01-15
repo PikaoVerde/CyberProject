@@ -1,6 +1,3 @@
-//import data from './mapdata.json' assert { type: 'JSON' };
-//
-//console.log(data);
 let map, infoWindow;
 
 
