@@ -14,8 +14,8 @@
         var autocomplete;
         autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
             types: ['geocode'],
-            componentRestrictions: {
-                country: "ISRAEL"
+         componentRestrictions: {
+               country: "ISR"
         }
         });
 
@@ -24,8 +24,8 @@
             document.getElementById('loc_lat').value = near_place.geometry.location.lat();
             document.getElementById('loc_long').value = near_place.geometry.location.lng();
 
-            document.getElementById('latitude_view').innerHTML = near_place.geometry.location.lat();
-            document.getElementById('longitude_view').innerHTML = near_place.geometry.location.lng();
+            document.getElementById('latitude_view').value = near_place.geometry.location.lat();
+            document.getElementById('longitude_view').value = near_place.geometry.location.lng();
         });
     });
 
@@ -63,14 +63,16 @@
 </div>
 
 <!-- Display latitude and longitude -->
-<div class="latlong-view">
-    <p><b>Latitude:</b> <span id="latitude_view"></span></p>
-    <p><b>Longitude:</b> <span id="longitude_view"></span></p>
-</div>
+<!--<div class="latlong-view">-->
+<!--    <p><b>Latitude:</b> <span id="latitude_view"></span></p>-->
+<!--    <p><b>Longitude:</b> <span id="longitude_view"></span></p>-->
+<!--</div>-->
 
 <form action="#" method="post">
     <label>Description:</label>
 <input type="text" name="des" placeholder="Type description..."/>
+    <input type="hidden" id="latitude_view" name="la">
+    <input type="hidden" id="longitude_view" name="ln">
     <p><input type="submit" value="Submit" /></p>
     </form>
 

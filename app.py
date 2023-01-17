@@ -1,8 +1,15 @@
 from flask import Flask, redirect, url_for, render_template, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_googlemaps import GoogleMaps
+from datetime import datetime
+import os
 
 app = Flask(__name__)
+
+IMG_FOLDER = os.path.join('static', 'IMG')
+
+app.config['UPLOAD_FOLDER'] = IMG_FOLDER
+
 app.secret_key = "PikaoVerde"
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///users.sqlite3'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -35,12 +42,14 @@ class Markers(db.Model):
     lng = db.Column(db.String(100))
     title = db.Column(db.String(100))
     creator = db.Column(db.String(100))
+    creation = db.Column(db.DateTime, default=datetime.now())
 
     def __init__(self, lat, lng, title, creator):
         self.lat = lat
         self.lng = lng
         self.title = title
         self.creator = creator
+
 
 @app.route("/")
 def home():
@@ -107,11 +116,21 @@ def logout():
     session.pop("email", None)
     return redirect(url_for("login"))
 
-@app.route("/report")
+@app.route("/report", methods=["POST", "GET"])
 def report():
     if "user" in session:
         user = session["user"]
-        return render_template("report.html")
+        if request.method == "POST":
+            description = request.form["des"]
+            lat = request.form["la"]
+            lng = request.form["ln"]
+            mr = Markers(lat, lng, description, user)
+            db.session.add(mr)
+            db.session.commit()
+            flash("Information saved! Thanks for the report", "info")
+            return render_template("report.html")
+        else:
+            return render_template("report.html")
     else:
         return redirect(url_for("login"))
 
@@ -119,14 +138,17 @@ def report():
 def map():
     return render_template("map.html")
 
-@app.route("/mapdata", methods=["POST", "GET"])
+@app.route("/mapdata")
 def mapdata():
     data = {
-          "markers": [
-            [{"lat": 32.1778, "lng": 34.8736}, "Ostrovisky", 1],
-            [{"lat": 32.188910, "lng": 34.866980}, "Casa", 2]
-          ]
+          "markers": []
     }
+
+    markers = Markers.query.all()
+    for mrk in markers:
+        marker_info = [{"lat": float(mrk.lat), "lng": float(mrk.lng)}, mrk.title]
+        data["markers"].append(marker_info)
+
     return data
 
 
