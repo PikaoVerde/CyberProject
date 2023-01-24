@@ -145,11 +145,31 @@ def mapdata():
     }
 
     markers = Markers.query.all()
+
+    for mark in markers:
+        mrkDate = mark.creation
+        now = datetime.now()
+        delta = now - mrkDate
+        print(delta)
+        print(delta.days)
+        if delta.days > 7:
+            # num = mark._id
+            Markers.query.filter_by(creation=mrkDate).delete()
+            print("Deleting ", mark)
+            db.session.commit()
+            print("Deleted")
+
+    markers = Markers.query.all()
+
     for mrk in markers:
         marker_info = [{"lat": float(mrk.lat), "lng": float(mrk.lng)}, mrk.title]
         data["markers"].append(marker_info)
 
     return data
+
+@app.route("/feed")
+def feed():
+    return render_template("feed.html")
 
 
 with app.app_context():
