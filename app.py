@@ -114,6 +114,7 @@ def logout():
         flash("Logged out successfully!", "info")
     session.pop("user", None)
     session.pop("email", None)
+    session.pop("phone", None)
     return redirect(url_for("login"))
 
 @app.route("/report", methods=["POST", "GET"])
@@ -150,14 +151,10 @@ def mapdata():
         mrkDate = mark.creation
         now = datetime.now()
         delta = now - mrkDate
-        print(delta)
-        print(delta.days)
-        if delta.days > 7:
+        if delta.days > 1:
             # num = mark._id
             Markers.query.filter_by(creation=mrkDate).delete()
-            print("Deleting ", mark)
             db.session.commit()
-            print("Deleted")
 
     markers = Markers.query.all()
 
