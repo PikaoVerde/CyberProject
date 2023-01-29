@@ -166,7 +166,21 @@ def mapdata():
 
 @app.route("/feed")
 def feed():
-    return render_template("feed.html")
+
+    markers = Markers.query.all()
+
+    for mark in markers:
+        mrkDate = mark.creation
+        now = datetime.now()
+        delta = now - mrkDate
+        if delta.days > 1:
+            # num = mark._id
+            Markers.query.filter_by(creation=mrkDate).delete()
+            db.session.commit()
+
+    markers = Markers.query.order_by(Markers.creation).all()
+    print(markers)
+    return render_template("feed.html", feedData=markers)
 
 
 with app.app_context():
