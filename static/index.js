@@ -12,9 +12,9 @@ const israel = { lat: 31.4117257, lng: 35.0818155 }
 
   const infoWindow = new google.maps.InfoWindow();
 
-function addMarker([location, title]) {
+function addMarker([la, ln, title]) {
   const marker = new google.maps.Marker({
-    position : location,
+    position : { lat: parseFloat(la), lng: parseFloat(ln)},
     map : map,
     title: `${title}`,
     label: "!",

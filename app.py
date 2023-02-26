@@ -42,13 +42,14 @@ class Markers(db.Model):
     lng = db.Column(db.String(100))
     title = db.Column(db.String(100))
     creator = db.Column(db.String(100))
-    creation = db.Column(db.DateTime, default=datetime.now())
+    creation = db.Column(db.DateTime)
 
-    def __init__(self, lat, lng, title, creator):
+    def __init__(self, lat, lng, title, creator, creation):
         self.lat = lat
         self.lng = lng
         self.title = title
         self.creator = creator
+        self.creation = creation
 
 
 @app.route("/")
@@ -125,7 +126,9 @@ def report():
             description = request.form["des"]
             lat = request.form["la"]
             lng = request.form["ln"]
-            mr = Markers(lat, lng, description, user)
+            dtime = datetime.now()
+            print(lat, lng)
+            mr = Markers(lat, lng, description, user, dtime)
             db.session.add(mr)
             db.session.commit()
             flash("Information saved! Thanks for the report", "info")
@@ -159,7 +162,7 @@ def mapdata():
     markers = Markers.query.all()
 
     for mrk in markers:
-        marker_info = [{"lat": float(mrk.lat), "lng": float(mrk.lng)}, mrk.title]
+        marker_info = [mrk.lat, mrk.lng, mrk.title]
         data["markers"].append(marker_info)
 
     return data
