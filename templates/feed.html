@@ -16,12 +16,17 @@
 
 <h1>24hr Feed</h1>
 <br/>
-    {% for mrk in feedData %}
-        <h3>{{mrk.title}}</h3>
-        <h4>{{mrk.creation.strftime("%H:%M")}}</h4>
-        <a class="nav-link" href="/map">See Where</a>
-<!--        <button type="button" href="/map">See Where</button>-->
-        <br/>
-        <br/>
-    {% endfor %}
+    {% if feedData %}
+        {% for mrk in feedData %}
+            <h3>{{mrk.title}}</h3>
+            <h4>{{mrk.address}}</h4>
+            <h4>{{mrk.creation.strftime("%H:%M")}}</h4>
+            <a class="nav-link" href="/map">See Where</a>
+    <!--        <button type="button" href="/map">See Where</button>-->
+            <br/>
+            <br/>
+        {% endfor %}
+    {% else %}
+        <h3>Nothing to worry about</h3>
+    {% endif %}
 {% endblock %}

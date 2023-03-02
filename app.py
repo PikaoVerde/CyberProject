@@ -40,13 +40,15 @@ class Markers(db.Model):
     _id = db.Column("id", db.Integer, primary_key=True)
     lat = db.Column(db.String(100))
     lng = db.Column(db.String(100))
+    address = db.Column(db.String(100))
     title = db.Column(db.String(100))
     creator = db.Column(db.String(100))
     creation = db.Column(db.DateTime)
 
-    def __init__(self, lat, lng, title, creator, creation):
+    def __init__(self, lat, lng, add, title, creator, creation):
         self.lat = lat
         self.lng = lng
+        self.address = add
         self.title = title
         self.creator = creator
         self.creation = creation
@@ -124,11 +126,12 @@ def report():
         user = session["user"]
         if request.method == "POST":
             description = request.form["des"]
+            add = request.form["adr"]
             lat = request.form["la"]
             lng = request.form["ln"]
             dtime = datetime.now()
             print(lat, lng)
-            mr = Markers(lat, lng, description, user, dtime)
+            mr = Markers(lat, lng, add, description, user, dtime)
             db.session.add(mr)
             db.session.commit()
             flash("Information saved! Thanks for the report", "info")
@@ -176,7 +179,7 @@ def feed():
         mrkDate = mark.creation
         now = datetime.now()
         delta = now - mrkDate
-        if delta.days > 1:
+        if delta.days >= 1:
             # num = mark._id
             Markers.query.filter_by(creation=mrkDate).delete()
             db.session.commit()
