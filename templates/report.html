@@ -6,7 +6,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyCGPs81uXNmtO-twbZR9oIKqzG8JzEjtzs"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyAAqWy0DmJhNoklNmZgyVRiZY9daxfswrY"></script>
 <script>
     var searchInput = 'search_input';
 
@@ -56,8 +56,8 @@
 <!--</form>-->
 
 <div class="form-group">
-    <label>Location:</label>
-    <input type="text" lass="form-control" id="search_input" placeholder="Type address..." name="adr" />
+
+<!--    <input type="text" lass="form-control" id="search_input" placeholder="Type address..." name="adre" />-->
 <!--    <input type="hidden" value=""-->
     <input type="hidden" id="loc_lat" />
     <input type="hidden" id="loc_long" />
@@ -70,8 +70,12 @@
 <!--</div>-->
 
 <form action="#" method="post">
+    <label>Location:</label>
+    <input type="text" lass="form-control" id="search_input" placeholder="Type address..." name="adre" />
+    <br/>
     <label>Description:</label>
 <input type="text" name="des" placeholder="Type description..."/>
+
     <input type="hidden" id="latitude_view" name="la">
     <input type="hidden" id="longitude_view" name="ln">
     <p><input type="submit" value="Submit" /></p>
