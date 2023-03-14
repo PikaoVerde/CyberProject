@@ -1,5 +1,10 @@
+*{
+
+}
+
 body {
-    color:#FF0000;
+    color:white;
+    background:#202020
 }
 
 /* Set the size of the div element that contains the map */
@@ -8,4 +13,35 @@ body {
 
   width: 90%;
   /* The width is the width of the web page */
+}
+
+#logo{
+margin: 10px;
+}
+
+.center{
+text-align: center;
+}
+
+.bottom{
+  position: absolute;
+  bottom:5;
+}
+
+.markerbox{
+
+}
+
+.markercontainer{
+border-radius:10px;
+background:#404040 ;
+margin: 20px;
+padding: 20px;
+height: 230px;
+position: relative;
+}
+
+#seewhere{
+  left:0;
+  width:100%;
 }

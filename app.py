@@ -158,7 +158,7 @@ def mapdata():
         mrkDate = mark.creation
         now = datetime.now()
         delta = now - mrkDate
-        if delta.days > 1:
+        if delta.days >= 1:
             # num = mark._id
             Markers.query.filter_by(creation=mrkDate).delete()
             db.session.commit()
