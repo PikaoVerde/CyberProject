@@ -6,13 +6,15 @@
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for msg in messages %}
-                <p>{{msg}}</p>
+                <div class="flash center">
+                    <p >{{msg}}</p>
+                </div>
             {% endfor %}
         {% endif %}
     {% endwith %}
 <form action="#" method="post">
     <p>Name:</p>
-    <p><input type="text" name="nm" /></p>
+    <p><input type="text" name="nm" class="formbg" /></p>
     <p><input type="submit" value="login" /></p>
 </form>
 {% endblock %}

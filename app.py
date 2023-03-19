@@ -110,7 +110,6 @@ def user():
     else:
         return redirect(url_for("login"))
 
-
 @app.route("/logout/")
 def logout():
     if "user" in session:
@@ -140,7 +139,9 @@ def report():
         else:
             return render_template("report.html")
     else:
+        flash("First log in", "info")
         return redirect(url_for("login"))
+
 
 @app.route("/map")
 def map():

@@ -19,9 +19,7 @@ body {
 margin: 10px;
 }
 
-.center{
-text-align: center;
-}
+
 
 .bottom{
   position: absolute;
@@ -30,6 +28,10 @@ text-align: center;
 
 .markerbox{
 
+}
+
+input.formbg{
+  background: #404040;
 }
 
 .markercontainer{
@@ -41,7 +43,21 @@ height: 230px;
 position: relative;
 }
 
+.flash{
+border-radius:10px;
+background:#404040 ;
+margin: 20px;
+padding: 20px;
+width: 150;
+height: 80;
+margin: 0 auto;
+}
+
 #seewhere{
   left:0;
   width:100%;
+}
+
+.center{
+text-align: center;
 }
