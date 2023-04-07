@@ -44,7 +44,7 @@
         {% if messages %}
             {% for msg in messages %}
                <div class="flash center">
-                    <p >{{msg}}</p>
+                    <p>{{msg}}</p>
                 </div>
             {% endfor %}
         {% endif %}
@@ -73,13 +73,14 @@
 
 <form action="#" method="post">
     <label>Location:</label>
-    <input type="text" lass="form-control" id="search_input" placeholder="Type address..." name="adre" class="formbg" />
+    <input type="text" lass="form-control" id="search_input" placeholder="Type address..." name="adre" class="formbg" required/>
     <br/>
     <label>Description:</label>
-<input type="text" name="des" placeholder="Type description..." class="formbg" />
+<input type="text" name="des" placeholder="Type description..." class="formbg inputb" required/>
 
     <input type="hidden" id="latitude_view" name="la">
     <input type="hidden" id="longitude_view" name="ln">
+    <br/>
     <p><input type="submit" value="Submit" /></p>
     </form>
 
