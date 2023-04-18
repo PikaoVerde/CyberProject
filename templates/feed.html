@@ -20,6 +20,7 @@
         <div class="container">
             <div class="row">
         {% for mrk in feedData %}
+                {% if user != mrk.creator %}
              <div class="col-lg-4 col-md-6 col-sm-12 markerbox">
                  <div class="markercontainer center" >
             <h3>{{mrk.title}}</h3>
@@ -30,6 +31,21 @@
 
             </div>
             </div>
+                {% else %}
+                <div class="col-lg-4 col-md-6 col-sm-12 markerbox">
+                 <div class="markercontainer center" >
+                <h3>{{mrk.title}}</h3>
+                <h4>{{mrk.address}}</h4>
+                <h4>{{mrk.creation.strftime("%H:%M")}}</h4>
+                <a id="seewhere" class="nav-link bottom center" href="/map">See Where</a>
+                 <form action="#" method="post">
+                    <input type="hidden" name="ide" value={{mrk._id}}>
+                    <p><input type="submit" name="Delete" value="Delete" class="dlt"/></p>
+                 </form>
+
+                </div>
+                </div>
+                {% endif %}
         {% endfor %}
             </div>
         </div>

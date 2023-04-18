@@ -91,6 +91,42 @@ def user():
     if "user" in session:
         user = session["user"]
 
+        if user == "Admin":
+            if request.method == "POST":
+                id = request.form["ide"]
+                Markers.query.filter_by(_id=id).delete()
+                db.session.commit()
+
+                markers = Markers.query.all()
+
+                for mark in markers:
+                    mrkDate = mark.creation
+                    now = datetime.now()
+                    delta = now - mrkDate
+                    if delta.days >= 1:
+                        # num = mark._id
+                        Markers.query.filter_by(creation=mrkDate).delete()
+                        db.session.commit()
+
+                markers = Markers.query.order_by(Markers.creation).all()
+                print("cu4")
+                return render_template("user.html", user=user, feedData=markers)
+            else:
+                markers = Markers.query.all()
+
+                for mark in markers:
+                    mrkDate = mark.creation
+                    now = datetime.now()
+                    delta = now - mrkDate
+                    if delta.days >= 1:
+                        # num = mark._id
+                        Markers.query.filter_by(creation=mrkDate).delete()
+                        db.session.commit()
+
+                markers = Markers.query.order_by(Markers.creation).all()
+                print(markers)
+                return render_template("user.html", user=user, feedData=markers)
+
         if request.method == "POST":
             email = request.form["email"]
             phone = request.form["phone"]
@@ -172,23 +208,28 @@ def mapdata():
 
     return data
 
-@app.route("/feed")
+@app.route("/feed",  methods=["POST", "GET"])
 def feed():
+    if "user" in session:
 
-    markers = Markers.query.all()
+        user = session["user"]
 
-    for mark in markers:
-        mrkDate = mark.creation
-        now = datetime.now()
-        delta = now - mrkDate
-        if delta.days >= 1:
-            # num = mark._id
-            Markers.query.filter_by(creation=mrkDate).delete()
-            db.session.commit()
+        markers = Markers.query.all()
 
-    markers = Markers.query.order_by(Markers.creation).all()
-    print(markers)
-    return render_template("feed.html", feedData=markers)
+        for mark in markers:
+            mrkDate = mark.creation
+            now = datetime.now()
+            delta = now - mrkDate
+            if delta.days >= 1:
+                # num = mark._id
+                Markers.query.filter_by(creation=mrkDate).delete()
+                db.session.commit()
+
+        markers = Markers.query.order_by(Markers.creation).all()
+        print(markers)
+        return render_template("feed.html", user=user, feedData=markers)
+    flash("First log in", "info")
+    return redirect(url_for("login"))
 
 
 with app.app_context():
