@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for, render_template, request, session, f
 from flask_sqlalchemy import SQLAlchemy
 from flask_googlemaps import GoogleMaps
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
 app = Flask(__name__)
@@ -27,11 +28,20 @@ db = SQLAlchemy(app)
 class users(db.Model):
     _id = db.Column("id", db.Integer, primary_key=True)
     name = db.Column(db.String(100))
+    password_hash = db.Column(db.String(100))
     email = db.Column(db.String(100))
     phone = db.Column(db.String(100))
 
-    def __init__(self, name, email, phone):
+    @property
+    def password(self):
+        raise AttributeError('password in not a readable attribute')
+
+    def verify_passwrord(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def __init__(self, name, password, email, phone):
         self.name = name
+        self.password_hash = generate_password_hash(password)
         self.email = email
         self.phone = phone
 
@@ -63,6 +73,7 @@ def home():
 def login():
     if request.method == "POST":
         user = request.form["nm"]
+        password = request.form["pwrd"]
         session["user"] = user
 
         found_user = users.query.filter_by(name=user).first()
@@ -72,7 +83,7 @@ def login():
 
 
         else:
-            usr = users(user, "", "")
+            usr = users(user,password, "", "")
             db.session.add(usr)
             db.session.commit()
 
@@ -109,7 +120,6 @@ def user():
                         db.session.commit()
 
                 markers = Markers.query.order_by(Markers.creation).all()
-                print("cu4")
                 return render_template("user.html", user=user, feedData=markers)
             else:
                 markers = Markers.query.all()
@@ -211,23 +221,42 @@ def mapdata():
 @app.route("/feed",  methods=["POST", "GET"])
 def feed():
     if "user" in session:
-
         user = session["user"]
+        if request.method == "POST":
+            id = request.form["ide"]
+            Markers.query.filter_by(_id=id).delete()
+            db.session.commit()
 
-        markers = Markers.query.all()
+            markers = Markers.query.all()
 
-        for mark in markers:
-            mrkDate = mark.creation
-            now = datetime.now()
-            delta = now - mrkDate
-            if delta.days >= 1:
-                # num = mark._id
-                Markers.query.filter_by(creation=mrkDate).delete()
-                db.session.commit()
+            for mark in markers:
+                mrkDate = mark.creation
+                now = datetime.now()
+                delta = now - mrkDate
+                if delta.days >= 1:
+                    # num = mark._id
+                    Markers.query.filter_by(creation=mrkDate).delete()
+                    db.session.commit()
 
-        markers = Markers.query.order_by(Markers.creation).all()
-        print(markers)
-        return render_template("feed.html", user=user, feedData=markers)
+            markers = Markers.query.order_by(Markers.creation).all()
+            return render_template("feed.html", user=user, feedData=markers)
+        else:
+
+
+            markers = Markers.query.all()
+
+            for mark in markers:
+                mrkDate = mark.creation
+                now = datetime.now()
+                delta = now - mrkDate
+                if delta.days >= 1:
+                    # num = mark._id
+                    Markers.query.filter_by(creation=mrkDate).delete()
+                    db.session.commit()
+
+            markers = Markers.query.order_by(Markers.creation).all()
+            print(markers)
+            return render_template("feed.html", user=user, feedData=markers)
     flash("First log in", "info")
     return redirect(url_for("login"))
 
