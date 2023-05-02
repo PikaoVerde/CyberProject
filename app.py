@@ -77,17 +77,21 @@ def login():
         session["user"] = user
 
         found_user = users.query.filter_by(name=user).first()
-        if found_user:
+        if found_user and check_password_hash(found_user.password_hash, password):
             session["email"] = found_user.email
             session["phone"] = found_user.phone
+            flash("Login successfull!", "info")
 
+        elif found_user and check_password_hash(found_user.password_hash, password) == False:
+            flash("Incorect password, Try again", "info")
+            return render_template("login.html")
 
         else:
             usr = users(user,password, "", "")
             db.session.add(usr)
             db.session.commit()
+            flash("Account created, Welcome", "info")
 
-        flash("Login successfull!", "info")
         return redirect(url_for("user"))
     else:
         if "user" in session:
