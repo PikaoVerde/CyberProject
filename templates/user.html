@@ -39,8 +39,10 @@
     <!--        <button type="button" href="/map">See Where</button>-->
             <form action="#" method="post">
                 <input type="hidden" name="ide" value={{mrk._id}}>
-                <p><input type="submit" name="Delete" value="Delete" class="dlt"/></p>
+                <p><input type="submit" name="Delete" value="Deactivate" class="dlt"/></p>
             </form>
+
+
 
             </div>
             </div>
@@ -51,4 +53,23 @@
         <h3 class="center">Nothing to worry about</h3>
     {% endif %}
 {% endif %}
+{% if oldData %}
+        <br/>
+        <br/>
+        <h1>Deactivated entries</h1>
+        <div class="container">
+            <div class="row">
+        {% for mrk in oldData %}
+             <div class="col-lg-4 col-md-6 col-sm-12 markerbox">
+                 <div class="markercontainer center" >
+            <h3>{{mrk.title}}</h3>
+            <h4>{{mrk.address}}</h4>
+            <h4>{{mrk.creation.strftime("%d/%m/%Y")}}</h4>
+            <h4>{{mrk.creation.strftime("%H:%M")}}</h4>
+            </div>
+            </div>
+        {% endfor %}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

@@ -54,6 +54,7 @@ class Markers(db.Model):
     title = db.Column(db.String(100))
     creator = db.Column(db.String(100))
     creation = db.Column(db.DateTime)
+    active = db.Column(db.Integer())
 
     def __init__(self, lat, lng, add, title, creator, creation):
         self.lat = lat
@@ -62,6 +63,7 @@ class Markers(db.Model):
         self.title = title
         self.creator = creator
         self.creation = creation
+        self.active = 1
 
 
 @app.route("/")
@@ -109,10 +111,11 @@ def user():
         if user == "Admin":
             if request.method == "POST":
                 id = request.form["ide"]
-                Markers.query.filter_by(_id=id).delete()
+                found_user = Markers.query.filter_by(_id=id).first()
+                found_user.active = 0
                 db.session.commit()
 
-                markers = Markers.query.all()
+                markers = Markers.query.filter_by(active = 1)
 
                 for mark in markers:
                     mrkDate = mark.creation
@@ -120,13 +123,16 @@ def user():
                     delta = now - mrkDate
                     if delta.days >= 1:
                         # num = mark._id
-                        Markers.query.filter_by(creation=mrkDate).delete()
+                        found_user = Markers.query.filter_by(creation=mrkDate).first()
+                        found_user.active = 0
                         db.session.commit()
 
-                markers = Markers.query.order_by(Markers.creation).all()
-                return render_template("user.html", user=user, feedData=markers)
+                markers = Markers.query.filter_by(active = 1).order_by(Markers.creation).all()
+                old = Markers.query.filter_by(active=0).order_by(Markers.creation).all()
+
+                return render_template("user.html", user=user, feedData=markers, oldData=old)
             else:
-                markers = Markers.query.all()
+                markers = Markers.query.filter_by(active = 1)
 
                 for mark in markers:
                     mrkDate = mark.creation
@@ -134,12 +140,14 @@ def user():
                     delta = now - mrkDate
                     if delta.days >= 1:
                         # num = mark._id
-                        Markers.query.filter_by(creation=mrkDate).delete()
+                        found_user = Markers.query.filter_by(creation=mrkDate).first()
+                        found_user.active = 0
                         db.session.commit()
 
-                markers = Markers.query.order_by(Markers.creation).all()
-                print(markers)
-                return render_template("user.html", user=user, feedData=markers)
+                markers = Markers.query.filter_by(active = 1).order_by(Markers.creation).all()
+                old = Markers.query.filter_by(active=0).order_by(Markers.creation).all()
+
+                return render_template("user.html", user=user, feedData=markers, oldData=old)
 
         if request.method == "POST":
             email = request.form["email"]
@@ -203,7 +211,7 @@ def mapdata():
           "markers": []
     }
 
-    markers = Markers.query.all()
+    markers = Markers.query.filter_by(active = 1)
 
     for mark in markers:
         mrkDate = mark.creation
@@ -211,10 +219,11 @@ def mapdata():
         delta = now - mrkDate
         if delta.days >= 1:
             # num = mark._id
-            Markers.query.filter_by(creation=mrkDate).delete()
+            found_user = Markers.query.filter_by(creation=mrkDate).first()
+            found_user.active = 0
             db.session.commit()
 
-    markers = Markers.query.all()
+    markers = Markers.query.filter_by(active = 1)
 
     for mrk in markers:
         marker_info = [mrk.lat, mrk.lng, mrk.title]
@@ -228,10 +237,11 @@ def feed():
         user = session["user"]
         if request.method == "POST":
             id = request.form["ide"]
-            Markers.query.filter_by(_id=id).delete()
+            found_user = Markers.query.filter_by(_id=id).first()
+            found_user.active = 0
             db.session.commit()
 
-            markers = Markers.query.all()
+            markers = Markers.query.filter_by(active = 1)
 
             for mark in markers:
                 mrkDate = mark.creation
@@ -239,15 +249,16 @@ def feed():
                 delta = now - mrkDate
                 if delta.days >= 1:
                     # num = mark._id
-                    Markers.query.filter_by(creation=mrkDate).delete()
+                    found_user = Markers.query.filter_by(creation=mrkDate).first()
+                    found_user.active = 0
                     db.session.commit()
 
-            markers = Markers.query.order_by(Markers.creation).all()
+            markers = Markers.query.filter_by(active = 1).order_by(Markers.creation).all()
             return render_template("feed.html", user=user, feedData=markers)
         else:
 
 
-            markers = Markers.query.all()
+            markers = Markers.query.filter_by(active = 1)
 
             for mark in markers:
                 mrkDate = mark.creation
@@ -255,10 +266,11 @@ def feed():
                 delta = now - mrkDate
                 if delta.days >= 1:
                     # num = mark._id
-                    Markers.query.filter_by(creation=mrkDate).delete()
+                    found_user = Markers.query.filter_by(creation=mrkDate).first()
+                    found_user.active = 0
                     db.session.commit()
 
-            markers = Markers.query.order_by(Markers.creation).all()
+            markers = Markers.query.filter_by(active = 1).order_by(Markers.creation).all()
             print(markers)
             return render_template("feed.html", user=user, feedData=markers)
     flash("First log in", "info")
