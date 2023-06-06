@@ -6,7 +6,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyAAqWy0DmJhNoklNmZgyVRiZY9daxfswrY"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyAX-1MQMA3zQ2nhHMWOEXDBbJlAdiHm2Hg"></script>
 <script>
     var searchInput = 'search_input';
 
@@ -49,27 +49,11 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-<!--<form action="#" method="post">-->
-<!--    <p>Adress:</p>-->
-<!--    <p><input type="text" name="adr" /></p>-->
-<!--    <p>Description:</p>-->
-<!--    <p><input type="text" name="des" /></p>-->
-<!--    <p><input type="submit" value="login" /></p>-->
-<!--</form>-->
 
 <div class="form-group">
-
-<!--    <input type="text" lass="form-control" id="search_input" placeholder="Type address..." name="adre" />-->
-<!--    <input type="hidden" value=""-->
     <input type="hidden" id="loc_lat" />
     <input type="hidden" id="loc_long" />
 </div>
-
-<!-- Display latitude and longitude -->
-<!--<div class="latlong-view">-->
-<!--    <p><b>Latitude:</b> <span id="latitude_view"></span></p>-->
-<!--    <p><b>Longitude:</b> <span id="longitude_view"></span></p>-->
-<!--</div>-->
 
 <form action="#" method="post">
     <label>Location:</label>

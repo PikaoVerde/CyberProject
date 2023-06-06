@@ -15,7 +15,7 @@ app.secret_key = "PikaoVerde"
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///users.sqlite3'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-app.config['GOOGLEMAPS_KEY'] = "AIzaSyAAqWy0DmJhNoklNmZgyVRiZY9daxfswrY"
+app.config['GOOGLEMAPS_KEY'] = "AIzaSyAX-1MQMA3zQ2nhHMWOEXDBbJlAdiHm2Hg"
 #
 GoogleMaps(app)
 
@@ -184,7 +184,6 @@ def report():
         if request.method == "POST":
             description = request.form["des"]
             add = request.form["adre"]
-            # add = "test"
             lat = request.form["la"]
             lng = request.form["ln"]
             dtime = datetime.now()
